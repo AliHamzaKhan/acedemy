@@ -1,0 +1,2 @@
+
+enum MovePageType { Next, Previous }
