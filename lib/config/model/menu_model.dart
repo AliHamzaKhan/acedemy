@@ -1,3 +1,4 @@
+import 'package:acedemy/config/routes/app_routes.dart';
 import 'package:acedemy/constant/assets_contant.dart';
 
 class MenuModel {

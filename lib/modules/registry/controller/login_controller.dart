@@ -5,7 +5,7 @@ import 'package:acedemy/utils/app_print.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../config/demo/school_list_demo.dart';
+import '../../../config/demo/demo_content.dart';
 
 class LoginController extends GetxController{
 

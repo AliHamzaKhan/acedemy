@@ -46,6 +46,7 @@ class AppLabeledCheckbox extends StatefulWidget {
   @override
   State<AppLabeledCheckbox> createState() => _AppLabeledCheckboxState();
 }
+
 class _AppLabeledCheckboxState extends State<AppLabeledCheckbox> {
   @override
   Widget build(BuildContext context) {
@@ -74,7 +75,8 @@ class _AppLabeledCheckboxState extends State<AppLabeledCheckbox> {
                 activeColor: AppColors.primary,
                 materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(setHeightValue(widget.iconRadius ?? 5))),
+                    borderRadius: BorderRadius.circular(
+                        setHeightValue(widget.iconRadius ?? 5))),
                 onChanged: (bool? newValue) {
                   setState(() {
                     widget.value = newValue!;
@@ -107,7 +109,7 @@ class PbLabelRadioButton extends StatefulWidget {
       required this.label,
       required this.value,
       required this.onChanged,
-      this.checkColor,
+      this.color,
       this.textSize,
       this.radioSize,
       this.alignment})
@@ -116,7 +118,7 @@ class PbLabelRadioButton extends StatefulWidget {
   final String label;
   bool value;
   final Function onChanged;
-  Color? checkColor;
+  Color? color;
   WrapAlignment? alignment;
   double? textSize;
   double? radioSize;
@@ -124,6 +126,7 @@ class PbLabelRadioButton extends StatefulWidget {
   @override
   State<PbLabelRadioButton> createState() => _PbLabelRadioButtonState();
 }
+
 class _PbLabelRadioButtonState extends State<PbLabelRadioButton> {
   @override
   Widget build(BuildContext context) {
@@ -140,7 +143,7 @@ class _PbLabelRadioButtonState extends State<PbLabelRadioButton> {
             height: setHeightValue(widget.radioSize ?? 30),
             width: setHeightValue(widget.radioSize ?? 30),
             child: Radio(
-                activeColor: widget.checkColor ?? AppColors.accent,
+                activeColor: widget.color ?? AppColors.accent,
                 value: widget.value,
                 groupValue: true,
                 onChanged: (bool? newValue) {
@@ -152,7 +155,7 @@ class _PbLabelRadioButtonState extends State<PbLabelRadioButton> {
           ),
           AppTextBold(
               text: widget.label,
-              color: AppColors.accent,
+              color: widget.color ?? AppColors.accent,
               size: widget.textSize ?? 16),
         ],
       ),
@@ -200,6 +203,7 @@ class CustomLabeledCheckbox extends StatefulWidget {
   @override
   State<CustomLabeledCheckbox> createState() => _CustomLabeledCheckboxState();
 }
+
 class _CustomLabeledCheckboxState extends State<CustomLabeledCheckbox> {
   @override
   Widget build(BuildContext context) {
@@ -250,7 +254,6 @@ class _CustomLabeledCheckboxState extends State<CustomLabeledCheckbox> {
   }
 }
 
-
 //ignore: must_be_immutable
 class PbChips extends StatefulWidget {
   PbChips(
@@ -268,6 +271,7 @@ class PbChips extends StatefulWidget {
   @override
   State<PbChips> createState() => _PbChipsState();
 }
+
 class _PbChipsState extends State<PbChips> {
   @override
   Widget build(BuildContext context) {
@@ -302,17 +306,17 @@ class _PbChipsState extends State<PbChips> {
 
 //ignore: must_be_immutable
 class AppCheckbox extends StatefulWidget {
-  AppCheckbox(
-      {Key? key,
-        required this.value,
-        required this.onChanged,
-        this.checkColor,
-        this.labelSize,
-        this.checkSize,
-        this.padding,
-        this.horizontalPadding,
-        this.iconRadius,})
-      : super(key: key);
+  AppCheckbox({
+    Key? key,
+    required this.value,
+    required this.onChanged,
+    this.checkColor,
+    this.labelSize,
+    this.checkSize,
+    this.padding,
+    this.horizontalPadding,
+    this.iconRadius,
+  }) : super(key: key);
 
   bool value;
   final Function onChanged;
@@ -326,6 +330,7 @@ class AppCheckbox extends StatefulWidget {
   @override
   State<AppCheckbox> createState() => _AppCheckboxState();
 }
+
 class _AppCheckboxState extends State<AppCheckbox> {
   @override
   Widget build(BuildContext context) {
@@ -346,7 +351,8 @@ class _AppCheckboxState extends State<AppCheckbox> {
             activeColor: AppColors.primary,
             materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
             shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(setHeightValue(widget.iconRadius ?? 5))),
+                borderRadius: BorderRadius.circular(
+                    setHeightValue(widget.iconRadius ?? 5))),
             onChanged: (bool? newValue) {
               setState(() {
                 widget.value = newValue!;

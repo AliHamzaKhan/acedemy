@@ -1,6 +1,9 @@
+import 'package:acedemy/config/services/data_parser_service.dart';
 import 'package:acedemy/widgets/app_divider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../config/demo/demo_content.dart';
+import '../config/enum/sorting_enum.dart';
 import '../config/model/menu_model.dart';
 import '../config/routes/app_routes.dart';
 import '../config/size_config.dart';
@@ -9,6 +12,7 @@ import '../constant/app_key_contant.dart';
 import '../constant/assets_contant.dart';
 import 'app_button.dart';
 import 'app_cards.dart';
+import 'app_checkbox.dart';
 import 'app_text.dart';
 
 void menuSheet(context) {
@@ -75,13 +79,18 @@ void menuSheet(context) {
             ),
             appDivider(context),
             setHeight(20),
-            Expanded(child: GridView.count(
+            Expanded(
+                child: GridView.count(
               shrinkWrap: true,
               crossAxisCount: 3,
               mainAxisSpacing: setHeightValue(0),
               crossAxisSpacing: setHeightValue(0),
               padding: EdgeInsets.all(setHeightValue(0)),
-              children: menus.map((e) => MenuCard(menuModel: e,)).toList(),
+              children: menus
+                  .map((e) => MenuCard(
+                        menuModel: e,
+                      ))
+                  .toList(),
             )),
           ],
         ),
@@ -89,3 +98,96 @@ void menuSheet(context) {
     },
   );
 }
+
+void showSubjectSheet(context) {
+  showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+    shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+      topLeft: Radius.circular(AppSizeConstant.kAppRadius),
+      topRight: Radius.circular(AppSizeConstant.kAppRadius),
+    )),
+    builder: (BuildContext context) {
+      return Container(
+        height: Get.height * 0.7,
+        padding: EdgeInsets.all(setHeightValue(20)),
+        child: Column(
+          children: [
+            AppTextBold(
+              text: 'Subjects',
+              size: 18,
+            ),
+            setHeight(5),
+            appDivider(context),
+            setHeight(10),
+            Expanded(
+              child: GridView.count(
+                crossAxisCount: 3,
+                children: demoSubjectList
+                    .map((e) => SubjectsCard(
+                          text: e,
+                          onClick: () {},
+                        ))
+                    .toList(),
+              ),
+            ),
+          ],
+        ),
+      );
+    },
+  );
+}
+
+void showSortingSheet(context, {required SortingEnum selected, required Function(SortingEnum) onSelected}) {
+  showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+    shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+      topLeft: Radius.circular(AppSizeConstant.kAppRadius),
+      topRight: Radius.circular(AppSizeConstant.kAppRadius),
+    )),
+    builder: (context) {
+      return Container(
+        height: Get.height * 0.3,
+        padding: EdgeInsets.all(setHeightValue(20)),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Center(
+              child: AppTextBold(
+                text: 'Sort By',
+                size: 18,
+              ),
+            ),
+            setHeight(5),
+            appDivider(context),
+            setHeight(10),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: SortingEnum.values
+                    .map((e) => PbLabelRadioButton(
+                          label: dataParser.getSpaceText(e.name),
+                          value: selected == e,
+                          color: Theme.of(context).textTheme.bodyLarge?.color,
+                          onChanged: (value) {
+                            onSelected(e);
+                            Get.back();
+                          },
+                        ))
+                    .toList(),
+              ),
+            )
+          ],
+        ),
+      );
+    },
+  );
+}
+

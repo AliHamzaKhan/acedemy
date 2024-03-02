@@ -3,7 +3,7 @@
 
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import '../../../config/demo/school_list_demo.dart';
+import '../../../config/demo/demo_content.dart';
 import '../../../utils/app_print.dart';
 
 class AuthController extends GetxController{

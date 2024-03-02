@@ -22,3 +22,6 @@ abstract class AppDarkColors {
   static Color transparent =  Colors.transparent;
 
 }
+
+Color presentColor =  Colors.greenAccent.shade100;
+Color absentColor =  Colors.redAccent.shade100;

@@ -1,4 +1,6 @@
+import 'package:acedemy/config/routes/app_routes.dart';
 import 'package:acedemy/constant/assets_contant.dart';
+import 'package:get/get.dart';
 
 class HomeNavModel {
   int index;
@@ -22,14 +24,16 @@ List<HomeNavModel> bottomNavItems = <HomeNavModel>[
       selectedImage: AssetsConstant.kHomeFill,
       onCick: () {}),
   HomeNavModel(
-      index: 1, title: 'Chat',
-      image: AssetsConstant.kChat,
-      selectedImage: AssetsConstant.kChatFill,
-      onCick: () {}),
-  HomeNavModel(
-      index: 1,
-      title: 'Room',
+      index: 2,
+      title: 'Assignment',
       image: AssetsConstant.kUsers,
       selectedImage: AssetsConstant.kUsersFill,
+      onCick: () {
+        Get.toNamed(AppRoutes.assignment);
+      }),
+  HomeNavModel(
+      index: 3, title: 'Chat',
+      image: AssetsConstant.kChat,
+      selectedImage: AssetsConstant.kChatFill,
       onCick: () {}),
 ];

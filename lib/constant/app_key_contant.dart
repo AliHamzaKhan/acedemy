@@ -9,6 +9,8 @@ abstract class AppStringConstant {
   static const String kToken = 'token';
   static const String kName = 'name';
   static const String kEmail = 'email';
+
+  static const String kid = 'id';
   static const String kCompanyName = 'company';
   static const String kImage = 'image';
 
@@ -19,6 +21,7 @@ abstract class AppSizeConstant{
   static const double kPadding = 20;
   static const double kRadius = 20;
   static const double kAppRadius = 30;
+  static const double kCardRadius = 10;
   static const double kHeaderHeight = 110.0;
 }
 

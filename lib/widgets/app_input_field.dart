@@ -46,6 +46,7 @@ class AppInputField extends StatefulWidget {
       this.isErrorBorderEnable = false,
       this.isSuffixIcon = false,
       this.isPrefixIcon = false,
+        this.cursorColor,
       this.align});
 
   final String hintText;
@@ -58,6 +59,7 @@ class AppInputField extends StatefulWidget {
   final  Color? textColor;
   final Color? hintTextColor;
   final Color? color;
+  final Color? cursorColor;
   final double? textSize;
    bool? obSecureText;
   final TextEditingController? controller;
@@ -109,7 +111,7 @@ class _AppInputFieldState extends State<AppInputField> {
       keyboardType: widget.keyboardType ?? TextInputType.text,
       maxLines: widget.maxLines,
       textAlign: widget.align ?? TextAlign.left,
-      cursorColor: AppColors.primary,
+      cursorColor:widget.cursorColor ?? AppColors.primary,
       inputFormatters: [
         LengthLimitingTextInputFormatter(widget.maxLength),
         if (widget.removeSpecialCharacters)
@@ -152,8 +154,8 @@ class _AppInputFieldState extends State<AppInputField> {
           isDense: true,
           // contentPadding: EdgeInsets.symmetric(vertical: widget.padding ?? 0.0, horizontal: 10.0),
           contentPadding: widget.padding ?? EdgeInsets.symmetric(
-              horizontal: setWidthValue(30),
-              vertical: setHeightValue(10)
+              horizontal: setWidthValue(35),
+              vertical: setHeightValue(12),
           ),
           fillColor: widget.color ?? AppColors.background,
           hoverColor: widget.color ?? AppColors.background,

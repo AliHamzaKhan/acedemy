@@ -1,16 +1,20 @@
+import 'package:acedemy/config/demo/demo_content.dart';
 import 'package:acedemy/config/size_config.dart';
 import 'package:acedemy/config/theme/app_colors.dart';
 import 'package:acedemy/constant/assets_contant.dart';
+import 'package:acedemy/modules/assignment/view/assignment_view.dart';
+import 'package:acedemy/modules/chat/view/chat_list_view.dart';
 import 'package:acedemy/utils/app_print.dart';
 import 'package:acedemy/widgets/app_text.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:table_calendar/table_calendar.dart';
 import '../../../config/routes/app_routes.dart';
 import '../../../config/theme/app_gradient.dart';
 import '../../../constant/app_key_contant.dart';
 import '../../../widgets/app_bottom_sheet.dart';
 import '../../../widgets/app_button.dart';
+import '../../../widgets/app_cards.dart';
 import '../../../widgets/app_drawer.dart';
 import '../../../widgets/app_scaffold.dart';
 import '../../../widgets/app_widgets.dart';
@@ -21,30 +25,47 @@ class HomeView extends StatelessWidget {
 
   var controller = Get.put(HomeController());
 
-
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
       scaffoldKey: controller.scaffoldKey,
-      body: Container(
+      body: SizedBox(
         width: Get.width,
         height: Get.height,
         child: Stack(
           children: [
-            dashboard(context),
-            topHeader(context),
+            // dashboard(context),
+            pages(context),
             Obx(() => Align(
                 alignment: Alignment.bottomCenter,
-                child: AppBottomNav(
-                  currentIndex: controller.currentIndex.value,
-                  onChange: (index) {
-                    controller.currentIndex(index);
-                  },
+                child: Container(
+                  color: Theme.of(context).scaffoldBackgroundColor,
+                  child: AppBottomNav(
+                    currentIndex: controller.currentIndex.value,
+                    onChange: (index) {
+                      // if(index == 1){
+                      //   Get.toNamed(AppRoutes.assignment);
+                      // }
+                      controller.currentIndex(index);
+                      controller.movePage(controller.currentIndex.value);
+                    },
+                  ),
                 )))
           ],
         ),
       ),
       drawer: HomeDrawer(),
+    );
+  }
+
+  pages(context) {
+    return PageView(
+      physics: const NeverScrollableScrollPhysics(),
+      onPageChanged: (index) {
+        controller.currentIndex.value = index;
+      },
+      controller: controller.pageController,
+      children: [dashboard(context), AssignmentView(), ChatListView()],
     );
   }
 
@@ -71,7 +92,7 @@ class HomeView extends StatelessWidget {
               menuSheet(context);
             },
             child: Padding(
-              padding: const EdgeInsets.all(10),
+              padding: const EdgeInsets.all(0),
               child: Image.asset(
                 AssetsConstant.kMenu,
                 color: Theme.of(context).scaffoldBackgroundColor,
@@ -128,100 +149,185 @@ class HomeView extends StatelessWidget {
   }
 
   dashboard(context) {
-    return SingleChildScrollView(
-      padding: EdgeInsets.only(
-          top: Get.height * 0.21,
-          left: setWidthValue(20),
-          right: setWidthValue(20)),
-      child: Column(
-        children: [attendance(context), events(), subjects()],
-      ),
+    return Column(
+      children: [
+        topHeader(context),
+        Expanded(
+          child: SingleChildScrollView(
+            padding: EdgeInsets.only(
+                bottom: Get.height * 0.10,
+                left: setWidthValue(20),
+                right: setWidthValue(20)),
+            child: Column(
+              children: [
+                attendance(context),
+                events(),
+                subjects(context),
+                setHeight(100)
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 
   attendance(context) {
     return Column(
       children: [
-        setHeight(10),
-        seeAll(title: 'Attendance', onClick: () {}, showAll: false),
-        // TableCalendar(
-        //
-        //   startingDayOfWeek: StartingDayOfWeek.monday,
-        //   availableCalendarFormats: const {CalendarFormat.month: 'Month'},
-        //   firstDay: DateTime.utc(2010, 10, 16),
-        //   lastDay: DateTime.utc(2030, 3, 14),
-        //   focusedDay: DateTime.now(),
-        //   headerStyle: HeaderStyle(
-        //     formatButtonVisible: false,
-        //     formatButtonShowsNext: false,
-        //     leftChevronVisible: false,
-        //     rightChevronVisible: false,
-        //     titleTextStyle: appTextStyleSemiBold(context),
-        //   ),
-        //   calendarStyle: CalendarStyle(
-        //     todayDecoration: BoxDecoration(
-        //       color: Colors.red,
-        //       shape: BoxShape.circle,
-        //     ),
-        //     selectedDecoration: BoxDecoration(
-        //       color: Colors.green,
-        //       shape: BoxShape.circle,
-        //     ),
-        //   ),
-        // )
-        setHeight(10),
-        GridView.builder(
-          shrinkWrap: true,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 7,
-            crossAxisSpacing: 7,
-            mainAxisSpacing: 7,
-            mainAxisExtent: 42
+        Container(
+          padding: EdgeInsets.all(setHeightValue(20)),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(AppSizeConstant.kCardRadius),
+            // border: Border.all(color: AppColors.borderColor)
           ),
-          itemCount: controller.daysInMonth(controller.currentDate.year, controller.currentDate.month),
-          itemBuilder: (context, index) {
-            DateTime day = DateTime(controller.currentDate.year, controller.currentDate.month, index + 1);
-            bool isPresent = controller.attendanceData[day] ?? false;
-            return GestureDetector(
-              onTap: () {
-                appDebugPrint("Selected date: $day");
-              },
-              child: Container(
-                width: setHeightValue(30),
-                height: setHeightValue(30),
-                decoration: BoxDecoration(
-                  // color: isPresent ? Colors.green : Colors.red,
-                  color: index %2 == 0 ? Colors.greenAccent : Colors.redAccent,
-                  shape: BoxShape.rectangle,
-                ),
-                alignment: Alignment.center,
-                child: AppTextRegular(
-                  text: '${index + 1}',
-                  size: 12,
-                ),
+          child: Stack(
+            children: [
+              GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 7,
+                    crossAxisSpacing: 7,
+                    mainAxisSpacing: 7,
+                    mainAxisExtent: 42),
+                itemCount: controller.daysInMonth(
+                    controller.currentDate.year, controller.currentDate.month),
+                itemBuilder: (context, index) {
+                  DateTime day = DateTime(controller.currentDate.year,
+                      controller.currentDate.month, index + 1);
+                  bool isPresent = controller.attendanceData[day] ?? false;
+                  return GestureDetector(
+                    onTap: () {
+                      appDebugPrint("Selected date: $day");
+                    },
+                    child: Container(
+                      width: setHeightValue(30),
+                      height: setHeightValue(30),
+                      decoration: BoxDecoration(
+                        // color: isPresent ? presentColor : absentColor,
+                        color: index % 2 == 0 ? presentColor : absentColor,
+                        shape: BoxShape.rectangle,
+                      ),
+                      alignment: Alignment.center,
+                      child: AppTextRegular(
+                        text: '${index + 1}',
+                        size: 12,
+                      ),
+                    ),
+                  );
+                },
               ),
-            );
-          },
+              Positioned(
+                bottom: 0,
+                right: 0,
+                child: Row(
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          width: 15,
+                          height: 15,
+                          decoration: BoxDecoration(
+                              color: absentColor,
+                              borderRadius: BorderRadius.circular(3)),
+                        ),
+                        setWidth(5),
+                        AppTextRegular(
+                          text: 'Absent',
+                          size: 12,
+                        )
+                      ],
+                    ),
+                    setWidth(10),
+                    Row(
+                      children: [
+                        Container(
+                          width: 15,
+                          height: 15,
+                          decoration: BoxDecoration(
+                              color: presentColor,
+                              borderRadius: BorderRadius.circular(3)),
+                        ),
+                        setWidth(5),
+                        AppTextRegular(
+                          text: 'Present',
+                          size: 12,
+                        )
+                      ],
+                    )
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ],
     );
   }
 
-  subjects() {
+  subjects(context) {
     return Column(
       children: [
-        setHeight(10),
-        seeAll(title: 'My Subjects', onClick: () {}),
+        seeAll(
+            title: 'My Subjects',
+            onClick: () {
+              showSubjectSheet(context);
+            }),
+        SizedBox(
+          width: Get.width,
+          height: setHeightValue(120),
+          child: ListView.builder(
+              // shrinkWrap: true,
+              scrollDirection: Axis.horizontal,
+              itemCount:
+                  demoSubjectList.length > 5 ? 5 : demoSubjectList.length,
+              itemBuilder: (context, index) {
+                return SubjectsCard(
+                  text: demoSubjectList[index],
+                  onClick: () {},
+                );
+              }),
+        ),
         setHeight(10),
       ],
     );
   }
 
   events() {
-    return Column(
-      children: [],
+    double height = setHeightValue(200);
+    return CarouselSlider(
+      options: CarouselOptions(
+          height: height,
+          enableInfiniteScroll: true,
+          reverse: false,
+          autoPlay: true,
+          autoPlayInterval: Duration(milliseconds: 3000),
+          autoPlayAnimationDuration: Duration(milliseconds: 800),
+          autoPlayCurve: Curves.fastOutSlowIn,
+          viewportFraction: 1
+          // enlargeCenterPage: true,
+          ),
+      items: demoEventList.map((i) {
+        return Builder(
+          builder: (BuildContext context) {
+            return EventsCard(
+              model: i,
+            );
+          },
+        );
+      }).toList(),
+    );
+    return Expanded(
+      child: ListView.builder(
+          shrinkWrap: true,
+          itemCount: demoEventList.length,
+          scrollDirection: Axis.horizontal,
+          itemBuilder: (context, index) {
+            return EventsCard(
+              model: demoEventList[index],
+            );
+          }),
     );
   }
 }
-
-

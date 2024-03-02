@@ -13,6 +13,13 @@ class ThemeManagementService extends GetxService{
   }
 }
 
+List<ThemeData> getThemes() {
+  return [
+    appDefaultTheme,
+    appDarkDefaultTheme
+  ];
+}
+
 
 final appDefaultTheme = ThemeData(
   scrollbarTheme: const ScrollbarThemeData().copyWith(

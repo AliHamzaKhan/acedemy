@@ -78,6 +78,12 @@ class DataParserService {
     return value ? 1 : 0;
   }
 
+  String getSpaceText(String inputText) {
+    return inputText.replaceAllMapped(
+      RegExp(r"([A-Z])"),
+          (match) => ' ${match.group(0)}',
+    );
+  }
   String getDoubleByCommaSeparated(dynamic number) {
     var data = getDouble(number);
     final format = NumberFormat('#,##0.00');

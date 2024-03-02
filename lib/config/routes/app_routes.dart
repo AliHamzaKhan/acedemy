@@ -12,10 +12,20 @@ abstract class AppRoutes{
   static const String home = '/home';
 
   static const String dashboard = '/dashboard';
+  static const String assignment = '/assignment';
   static const String profile = '/profile';
+  static const String chatList = '/chat_list';
+  static const String chat = '/chat';
+
+  static String kChatWithUser(String id) =>
+      "$chat/$id";
 
   static const String notification = '/notification';
   static const String notFound = '/not_found';
 
+}
+
+
+abstract class AppPath{
 
 }

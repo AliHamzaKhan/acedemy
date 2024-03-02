@@ -24,8 +24,8 @@ class LoginView extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppScaffold(
       resizeToAvoidBottomInset: false,
-      appBar: appAppBar(context),
-      body: Column(
+      appBar: appAppBar(context,),
+      body: Obx(() => Column(
         // mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -79,36 +79,39 @@ class LoginView extends StatelessWidget {
                 setHeight(10),
                 RichText(
                     text: TextSpan(children: [
-                  TextSpan(
-                    text: 'Login as :  ',
-                    style: appTextStyleExtraLight(
-                        context,
-                        size: 16
-                    ),
-                  ),
-                  TextSpan(
-                    text: !controller.isParent.value ? 'Parent?' : 'Student?',
-                    style: appTextStyleSemiBold(context, size: 16),
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = () {},
-                  ),
-                ]))
+                      TextSpan(
+                        text: 'Login as :  ',
+                        style: appTextStyleExtraLight(
+                            context,
+                            size: 16
+                        ),
+                      ),
+                      TextSpan(
+                        text: !controller.isParent.value ? 'Parent?' : 'Student?',
+                        style: appTextStyleSemiBold(context, size: 16),
+                        recognizer: TapGestureRecognizer()
+                          ..onTap = () {
+                            controller.isParent.value = !controller.isParent.value;
+                          },
+                      ),
+                    ]))
               ],
             ),
           )
         ],
-      ),
+      )),
     );
   }
 
   top() {
     return Column(
       children: [
-        setHeight(Get.height * 0.25),
+        setHeight(Get.height * 0.15),
         AppTextMedium(
-          text: 'Let\'s Sign In',
+          text: 'Let\'s Sign In As\n${controller.isParent.value ? 'Parent' : 'Student'}',
           size: 30,
           color: AppColors.primary,
+          align: TextAlign.center,
         ),
         setHeight(10),
         AppTextRegular(text: 'Please Provide Details to continue'),

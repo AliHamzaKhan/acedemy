@@ -4,6 +4,7 @@ import 'package:acedemy/config/theme/app_colors.dart';
 import 'package:acedemy/config/theme/app_gradient.dart';
 import 'package:acedemy/widgets/app_button.dart';
 import 'package:acedemy/widgets/app_text.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../constant/app_key_contant.dart';
@@ -19,18 +20,49 @@ class LoginSelectionView extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
+          Expanded(
+            child: CarouselSlider(
+              options: CarouselOptions(
+                height: 400.0,
+                enableInfiniteScroll: true,
+                reverse: false,
+                autoPlay: true,
+                autoPlayInterval: Duration(milliseconds: 1500),
+                autoPlayAnimationDuration: Duration(milliseconds: 800),
+                autoPlayCurve: Curves.fastOutSlowIn,
+                viewportFraction: 1
+                // enlargeCenterPage: true,
+              ),
+              items: ['assets/vector/vector1.jpg','assets/vector/vector2.jpg' ].map((i) {
+                return Builder(
+                  builder: (BuildContext context) {
+                    return Container(
+                        width: MediaQuery.of(context).size.width,
+                        margin: EdgeInsets.symmetric(horizontal: 5.0),
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage(i),
+                            fit: BoxFit.contain
+                          )
+                        ),
+                    );
+                  },
+                );
+              }).toList(),
+            ),
+          ),
           Container(
             height: Get.height * 0.5,
             width: Get.width,
-            padding: EdgeInsets.symmetric(
-              horizontal: setWidthValue(50)
-            ),
+            padding: EdgeInsets.symmetric(horizontal: setWidthValue(50)),
             decoration: BoxDecoration(
                 color: Theme.of(context).primaryColor,
                 gradient: appLinearGradient(),
                 borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(setHeightValue(AppSizeConstant.kAppRadius)),
-                  topLeft: Radius.circular(setHeightValue(AppSizeConstant.kAppRadius)),
+                  topRight: Radius.circular(
+                      setHeightValue(AppSizeConstant.kAppRadius)),
+                  topLeft: Radius.circular(
+                      setHeightValue(AppSizeConstant.kAppRadius)),
                 )),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -59,9 +91,8 @@ class LoginSelectionView extends StatelessWidget {
                     AppButton(
                       title: 'Login as Student',
                       onTap: () {
-                        Get.toNamed(AppRoutes.login, arguments: {
-                          'isParent' : false
-                        });
+                        Get.toNamed(AppRoutes.login,
+                            arguments: {'isParent': false});
                       },
                       btnColor: AppColors.background,
                       isShadow: false,
@@ -74,9 +105,8 @@ class LoginSelectionView extends StatelessWidget {
                     AppButton(
                       title: 'Login as Parent',
                       onTap: () {
-                        Get.toNamed(AppRoutes.login, arguments: {
-                          'isParent' : true
-                        });
+                        Get.toNamed(AppRoutes.login,
+                            arguments: {'isParent': true});
                       },
                       btnColor: AppColors.primary,
                       isShadow: false,

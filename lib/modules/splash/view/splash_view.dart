@@ -9,19 +9,14 @@ import '../controller/splash_controller.dart';
 
 class SplashView extends StatelessWidget {
   SplashView({super.key});
-
   var controller = Get.put(SplashController());
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      body: Container(
+      body: SizedBox(
         width: Get.width,
         height: Get.height,
-        child: Column(
-          children: [
-            AppTextBold(text: 'Splash Screen')
-          ],
-        ),
+        child: Image.asset('assets/vector/vector2.jpg'),
       ),
     );
   }
