@@ -103,10 +103,10 @@ class LoginSelectionView extends StatelessWidget {
                     ),
                     setHeight(15),
                     AppButton(
-                      title: 'Login as Parent',
+                      title: 'Login as Teacher',
                       onTap: () {
-                        Get.toNamed(AppRoutes.login,
-                            arguments: {'isParent': true});
+                        // Get.toNamed(AppRoutes.login,
+                        //     arguments: {'isParent': true});
                       },
                       btnColor: AppColors.primary,
                       isShadow: false,

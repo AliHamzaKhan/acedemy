@@ -10,8 +10,10 @@ import '../../../config/theme/app_gradient.dart';
 import '../../../constant/app_key_contant.dart';
 import '../../../constant/assets_contant.dart';
 import '../../../widgets/app_bottom_sheet.dart';
+import '../../../widgets/app_cards.dart';
 import '../../../widgets/app_scaffold.dart';
 import '../controller/assignment_controller.dart';
+import 'assignment_detail_view.dart';
 
 class AssignmentView extends StatelessWidget {
   AssignmentView({super.key});
@@ -113,49 +115,98 @@ class AssignmentView extends StatelessWidget {
                 ],
               )),
           setHeight(10),
-          Expanded(
-            child: DefaultTabController(
-              length: controller.subjectsList.length,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  children: [
-                    ButtonsTabBar(
-                      contentPadding: EdgeInsets.symmetric(
-                          horizontal: setWidthValue(30),
-                          vertical: setHeightValue(5)),
-                      backgroundColor: Theme.of(context).primaryColor,
-                      unselectedBackgroundColor: Colors.white,
-                      labelStyle: const TextStyle(
-                        color: Colors.white,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      unselectedLabelStyle: TextStyle(
-                        color: Theme.of(context).primaryColor,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      borderWidth: 0,
-                      unselectedBorderColor: Colors.blue,
-                      radius: 10,
-                      tabs: controller.subjectsList
-                          .map((element) => Tab(
-                                text: element,
-                              ))
-                          .toList(),
-                      onTap: (index){
-                        appDebugPrint(controller.subjectsList[index]);
-                      },
-                    ),
-                    Expanded(
-                      child: TabBarView(
-                        children: [],
-                      ),
-                    ),
-                  ],
+          Obx(() => SingleChildScrollView(
+                padding: EdgeInsets.symmetric(
+                    horizontal: setWidthValue(30), vertical: setHeightValue(5)),
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: controller.subjectsList
+                      .map((element) => GestureDetector(
+                            onTap: () {
+                              controller.selectedSubject(element);
+                            },
+                            child: Container(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: setWidthValue(30),
+                                  vertical: setHeightValue(7)),
+                              margin: EdgeInsets.symmetric(
+                                  horizontal: setWidthValue(5)),
+                              decoration: BoxDecoration(
+                                  color:
+                                      controller.selectedSubject.value.title ==
+                                              element.title
+                                          ? Theme.of(context).primaryColor
+                                          : AppColors.transparent,
+                                  borderRadius: BorderRadius.circular(
+                                      setHeightValue(10))),
+                              child: AppTextBold(
+                                text: element.title,
+                                color: controller.selectedSubject.value.title ==
+                                        element.title
+                                    ? Theme.of(context).scaffoldBackgroundColor
+                                    : Theme.of(context).primaryColor,
+                              ),
+                            ),
+                          ))
+                      .toList(),
                 ),
-              ),
-            ),
+              )),
+
+          Expanded(
+            child: ListView.builder(
+                itemCount: 15,
+                itemBuilder: (context, index) {
+                  return AssignmentCard(
+                    onClick: (){
+                      Get.to(()=>AssignmentDetailView());
+                    },
+                  );
+                }),
           )
+
+          // Expanded(
+          //   child: DefaultTabController(
+          //     length: controller.subjectsList.length,
+          //     child: Padding(
+          //       padding: const EdgeInsets.all(8.0),
+          //       child: Column(
+          //         children: [
+          //           ButtonsTabBar(
+          //             contentPadding: EdgeInsets.symmetric(
+          //                 horizontal: setWidthValue(30),
+          //                 vertical: setHeightValue(5)),
+          //             backgroundColor: Theme.of(context).primaryColor,
+          //             unselectedBackgroundColor: Colors.white,
+          //             labelStyle: const TextStyle(
+          //               color: Colors.white,
+          //               fontWeight: FontWeight.bold,
+          //             ),
+          //             unselectedLabelStyle: TextStyle(
+          //               color: Theme.of(context).primaryColor,
+          //               fontWeight: FontWeight.bold,
+          //             ),
+          //             borderWidth: 0,
+          //             unselectedBorderColor: Colors.blue,
+          //             radius: 10,
+          //             tabs: controller.subjectsList
+          //                 .map((element) => Tab(
+          //                       text: element.title,
+          //                     ))
+          //                 .toList(),
+          //             onTap: (index) {
+          //               appDebugPrint(controller.subjectsList[index]);
+          //             },
+          //           ),
+          //           Expanded(
+          //             child: TabBarView(
+          //               children: [],
+          //             ),
+          //           ),
+          //         ],
+          //       ),
+          //     ),
+          //   ),
+          // )
         ],
       ),
     ));

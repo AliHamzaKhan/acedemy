@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../config/model/event_model.dart';
 import '../config/model/menu_model.dart';
+import '../config/model/subject_model.dart';
 import '../config/size_config.dart';
 import '../config/theme/app_colors.dart';
 import '../constant/app_key_contant.dart';
@@ -40,9 +41,9 @@ class MenuCard extends StatelessWidget {
 }
 
 class SubjectsCard extends StatelessWidget {
-  SubjectsCard({super.key, required this.text, this.onClick});
+  SubjectsCard({super.key, required this.subjectModel, this.onClick});
 
-  String text;
+  SubjectModel subjectModel;
   var onClick;
 
   @override
@@ -53,31 +54,27 @@ class SubjectsCard extends StatelessWidget {
         width: setHeightValue(110),
         height: setHeightValue(110),
         alignment: Alignment.center,
-        child: Expanded(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                width: setHeightValue(100),
-                height: setHeightValue(100),
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                    borderRadius:
-                        BorderRadius.circular(AppSizeConstant.kCardRadius),
-                    border: Border.all(color: AppColors.borderColor)),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              width: setHeightValue(70),
+              height: setHeightValue(70),
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                  borderRadius:
+                      BorderRadius.circular(AppSizeConstant.kCardRadius),
+                  image: DecorationImage(
+                      image: AssetImage(subjectModel.image),
+                      fit: BoxFit.contain)),
+            ),
+            setHeight(10),
+            Expanded(
                 child: AppTextBold(
-                  text: text[0],
-                  size: setHeightValue(30),
-                ),
-              ),
-              setHeight(10),
-              Expanded(
-                  child: AppTextRegular(
-                text: text,
-                size: setHeightValue(12),
-              ))
-            ],
-          ),
+              text: subjectModel.title,
+              size: setHeightValue(12),
+            ))
+          ],
         ),
       ),
     );
@@ -259,13 +256,17 @@ class MessageCard extends StatelessWidget {
           child: Column(
             children: [
               AppTextExtraLight(
-                text: 'this is testing text for chatting list this is testing text for chatting list',
+                text:
+                    'this is testing text for chatting list this is testing text for chatting list',
                 color: AppColors.background,
                 overFlow: TextOverflow.clip,
               ),
               Align(
                   alignment: Alignment.centerRight,
-                  child: AppTextBold(text: '25-12-21', color: AppColors.background,))
+                  child: AppTextBold(
+                    text: '25-12-21',
+                    color: AppColors.background,
+                  ))
             ],
           ),
         ),
@@ -301,9 +302,77 @@ class MessageCard extends StatelessWidget {
               ),
               Align(
                   alignment: Alignment.centerLeft,
-                  child: AppTextBold(text: '25-12-21', color: AppColors.background,))
+                  child: AppTextBold(
+                    text: '25-12-21',
+                    color: AppColors.background,
+                  ))
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class AssignmentCard extends StatelessWidget {
+  AssignmentCard({super.key, this.onClick});
+
+  var onClick;
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onClick,
+      child: Container(
+        padding: EdgeInsets.symmetric(
+          horizontal: setWidthValue(30),
+          vertical: setHeightValue(10)
+        ),
+        margin: EdgeInsets.all(setHeightValue(10)),
+        decoration: BoxDecoration(
+            color: AppColors.cardColor,
+            borderRadius: BorderRadius.circular(AppSizeConstant.kCardRadius)),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: setHeightValue(100),
+              height: setHeightValue(100),
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(AppSizeConstant.kCardRadius),
+                  image: DecorationImage(
+                      image: AssetImage(AssetsConstant.kArabic),
+                      fit: BoxFit.contain)),
+            ),
+            Flexible(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Expanded(child: AppTextBold(text: 'Drawing Of Nature', size: 18)),
+                      AppTextRegular(
+                        text: '22-08-22',
+                        size: 14,
+                      )
+                    ],
+                  ),
+                  setHeight(5),
+                  AppTextRegular(
+                    text: 'Drawing',
+                    size: 14,
+                  ),
+                  setHeight(15),
+                  AppTextBold(
+                    text: 'Due 22, March 2024, 01:29 AM',
+                    size: 14,
+                  )
+                ],
+              ),
+            )
+          ],
         ),
       ),
     );

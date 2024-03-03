@@ -9,6 +9,7 @@ import 'package:acedemy/widgets/app_text.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../../../config/model/subject_model.dart';
 import '../../../config/routes/app_routes.dart';
 import '../../../config/theme/app_gradient.dart';
 import '../../../constant/app_key_contant.dart';
@@ -34,7 +35,6 @@ class HomeView extends StatelessWidget {
         height: Get.height,
         child: Stack(
           children: [
-            // dashboard(context),
             pages(context),
             Obx(() => Align(
                 alignment: Alignment.bottomCenter,
@@ -176,51 +176,57 @@ class HomeView extends StatelessWidget {
     return Column(
       children: [
         Container(
-          padding: EdgeInsets.all(setHeightValue(20)),
+          padding: EdgeInsets.all(setHeightValue(10)),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(AppSizeConstant.kCardRadius),
             // border: Border.all(color: AppColors.borderColor)
           ),
           child: Stack(
             children: [
-              GridView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 7,
-                    crossAxisSpacing: 7,
-                    mainAxisSpacing: 7,
-                    mainAxisExtent: 42),
-                itemCount: controller.daysInMonth(
-                    controller.currentDate.year, controller.currentDate.month),
-                itemBuilder: (context, index) {
-                  DateTime day = DateTime(controller.currentDate.year,
-                      controller.currentDate.month, index + 1);
-                  bool isPresent = controller.attendanceData[day] ?? false;
-                  return GestureDetector(
-                    onTap: () {
-                      appDebugPrint("Selected date: $day");
-                    },
-                    child: Container(
-                      width: setHeightValue(30),
-                      height: setHeightValue(30),
-                      decoration: BoxDecoration(
-                        // color: isPresent ? presentColor : absentColor,
-                        color: index % 2 == 0 ? presentColor : absentColor,
-                        shape: BoxShape.rectangle,
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(AppSizeConstant.kCardRadius),
+                  border: Border.all(color: AppColors.borderColor)
+                ),
+                child: GridView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 7,
+                      crossAxisSpacing: 7,
+                      mainAxisSpacing: 7,
+                      mainAxisExtent: 42),
+                  itemCount: controller.daysInMonth(
+                      controller.currentDate.year, controller.currentDate.month),
+                  itemBuilder: (context, index) {
+                    DateTime day = DateTime(controller.currentDate.year,
+                        controller.currentDate.month, index + 1);
+                    bool isPresent = controller.attendanceData[day] ?? false;
+                    return GestureDetector(
+                      onTap: () {
+                        appDebugPrint("Selected date: $day");
+                      },
+                      child: Container(
+                        width: setHeightValue(30),
+                        height: setHeightValue(30),
+                        decoration: BoxDecoration(
+                          // color: isPresent ? presentColor : absentColor,
+                          color: index % 2 == 0 ? AppColors.transparent : absentColor,
+                          shape: BoxShape.rectangle,
+                        ),
+                        alignment: Alignment.center,
+                        child: AppTextRegular(
+                          text: '${index + 1}',
+                          size: 12,
+                        ),
                       ),
-                      alignment: Alignment.center,
-                      child: AppTextRegular(
-                        text: '${index + 1}',
-                        size: 12,
-                      ),
-                    ),
-                  );
-                },
+                    );
+                  },
+                ),
               ),
               Positioned(
-                bottom: 0,
-                right: 0,
+                bottom: 10,
+                right: 10,
                 child: Row(
                   children: [
                     Row(
@@ -267,6 +273,10 @@ class HomeView extends StatelessWidget {
   }
 
   subjects(context) {
+    List<SubjectModel> displayedSubjects = demoSubjectList.length > 5
+        ? demoSubjectList.sublist(0, 5)
+        : demoSubjectList;
+
     return Column(
       children: [
         seeAll(
@@ -274,20 +284,16 @@ class HomeView extends StatelessWidget {
             onClick: () {
               showSubjectSheet(context);
             }),
-        SizedBox(
-          width: Get.width,
-          height: setHeightValue(120),
-          child: ListView.builder(
-              // shrinkWrap: true,
-              scrollDirection: Axis.horizontal,
-              itemCount:
-                  demoSubjectList.length > 5 ? 5 : demoSubjectList.length,
-              itemBuilder: (context, index) {
-                return SubjectsCard(
-                  text: demoSubjectList[index],
-                  onClick: () {},
-                );
-              }),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: displayedSubjects
+                .map((e) => SubjectsCard(
+                      subjectModel: e,
+                      onClick: () {},
+                    ))
+                .toList(),
+          ),
         ),
         setHeight(10),
       ],

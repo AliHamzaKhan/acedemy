@@ -1,7 +1,10 @@
 
 
 
+import 'package:acedemy/constant/assets_contant.dart';
+
 import '../model/event_model.dart';
+import '../model/subject_model.dart';
 
 List<String> demoSchoolList = [
   'Noor Public School',
@@ -11,16 +14,16 @@ List<String> demoSchoolList = [
   'Karachi Public School'
 ];
 
-List<String> demoSubjectList = [
-  'English',
-  'Urdu',
-  'Math',
-  'Pak Studies',
-  'Computer',
-  'Islamiat',
-  'Physics',
-  'Chemistry',
-  'Biology'
+List<SubjectModel> demoSubjectList = [
+  SubjectModel(id: '', title: 'English', image: AssetsConstant.kEnglish),
+  SubjectModel(id: '', title: 'Urdu', image: AssetsConstant.kUrdu),
+  SubjectModel(id: '', title: 'Math', image: AssetsConstant.kMaths),
+  SubjectModel(id: '', title: 'Pak Studies', image: AssetsConstant.kPakistan),
+  SubjectModel(id: '', title: 'Computer', image: AssetsConstant.kComputer),
+  SubjectModel(id: '', title: 'Islamiat', image: AssetsConstant.kArabic),
+  SubjectModel(id: '', title: 'Physics', image: AssetsConstant.kPhysics),
+  SubjectModel(id: '', title: 'Chemistry', image: AssetsConstant.kChemistry),
+  SubjectModel(id: '', title: 'Biology', image: AssetsConstant.kBiology),
 ];
 
 List<EventModel> demoEventList = [

@@ -1,8 +1,6 @@
 
 
 abstract class AssetsConstant{
-
-
   // fill
   static const String kBackArrowFill = 'assets/fill/back_arrow.png';
   static const String kCalendarFill = 'assets/fill/calendar.png';
@@ -63,6 +61,15 @@ abstract class AssetsConstant{
   static const String kTimeTable = 'assets/menu/time.png';
 
 
-
+ // subject
+  static const String kArabic = 'assets/subjects/arabic.png';
+  static const String kBiology = 'assets/subjects/biology.png';
+  static const String kChemistry = 'assets/subjects/chemistry.png';
+  static const String kEnglish = 'assets/subjects/english.png';
+  static const String kMaths = 'assets/subjects/maths.png';
+  static const String kPakistan = 'assets/subjects/pakistan.png';
+  static const String kComputer = 'assets/subjects/computer.png';
+  static const String kPhysics = 'assets/subjects/physics.png';
+  static const String kUrdu = 'assets/subjects/urdu.png';
 
 }

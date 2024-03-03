@@ -127,7 +127,7 @@ void showSubjectSheet(context) {
                 crossAxisCount: 3,
                 children: demoSubjectList
                     .map((e) => SubjectsCard(
-                          text: e,
+                          subjectModel: e,
                           onClick: () {},
                         ))
                     .toList(),
