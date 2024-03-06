@@ -13,6 +13,8 @@ abstract class AssetsConstant{
   static const String kEditFill = 'assets/fill/edit.png';
   static const String kFilterFill = 'assets/fill/filter.png';
   static const String kForwardArrowFill = 'assets/fill/forward_arrow.png';
+  static const String kUploadFill = 'assets/fill/upload.png';
+  static const String kAddFill = 'assets/fill/add.png';
   static const String kHeartFill = 'assets/fill/heart.png';
   static const String kHomeFill = 'assets/fill/home.png';
   static const String kImageFill = 'assets/fill/image.png';

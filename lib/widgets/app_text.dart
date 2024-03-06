@@ -340,6 +340,7 @@ Widget titleSubTitleColumnText(
     MainAxisAlignment? mainAxisAlignment,
     int? headFlex,
     textColor,
+    double? headSize,
     double? textSize,
       FontWeight? weight}) {
   return Column(
@@ -348,11 +349,11 @@ Widget titleSubTitleColumnText(
     children: [
       AppTextExtraLight(
         text: head,
-        size: textSize ?? 13,
+        size: (headSize ?? textSize) ?? 13,
         color: textColor ?? AppColors.text,
         align: TextAlign.left,
       ),
-      setWidth(10),
+      setHeight(10),
       AppTextRegular(
         text: title,
         size: textSize ?? 13,

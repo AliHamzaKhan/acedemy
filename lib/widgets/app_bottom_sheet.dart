@@ -1,5 +1,6 @@
 import 'package:acedemy/config/services/data_parser_service.dart';
 import 'package:acedemy/widgets/app_divider.dart';
+import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../config/demo/demo_content.dart';
@@ -140,7 +141,9 @@ void showSubjectSheet(context) {
   );
 }
 
-void showSortingSheet(context, {required SortingEnum selected, required Function(SortingEnum) onSelected}) {
+void showSortingSheet(context,
+    {required SortingEnum selected,
+    required Function(SortingEnum) onSelected}) {
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
@@ -191,3 +194,62 @@ void showSortingSheet(context, {required SortingEnum selected, required Function
   );
 }
 
+void showUploadFiles(
+  context,
+) {
+  showModalBottomSheet(
+    context: context,
+    isScrollControlled: true,
+    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+    shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+      topLeft: Radius.circular(AppSizeConstant.kAppRadius),
+      topRight: Radius.circular(AppSizeConstant.kAppRadius),
+    )),
+    builder: (context) {
+      return Container(
+        height: Get.height * 0.25,
+        padding: EdgeInsets.all(setHeightValue(20)),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                AppTextBold(
+                  text: 'Upload File',
+                  size: 18,
+                ),
+                IconButton(onPressed: () {}, icon: Icon(Icons.close))
+              ],
+            ),
+            appDivider(context),
+            setHeight(10),
+            DottedBorder(
+              dashPattern: [5 , 5],
+              borderType: BorderType.RRect,
+              color: Colors.black,
+              strokeWidth: 0.5,
+              padding: EdgeInsets.all(setHeightValue(10)),
+              radius: Radius.circular(setHeightValue(10)),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  AppIconButton(
+                    width: 30,
+                      height: 30,
+                      iconSize: 15,
+                      icon: AssetsConstant.kAddFill,
+                      onTap: () {}),
+                  setWidth(10),
+                  AppTextExtraLight(text: 'Add Files')
+                ],
+              ),
+            )
+          ],
+        ),
+      );
+    },
+  );
+}

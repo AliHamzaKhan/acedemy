@@ -315,18 +315,18 @@ class MessageCard extends StatelessWidget {
 }
 
 class AssignmentCard extends StatelessWidget {
-  AssignmentCard({super.key, this.onClick});
+  AssignmentCard({super.key, this.onClick, this.isSubmitted = false});
 
   var onClick;
+  bool isSubmitted;
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onClick,
       child: Container(
         padding: EdgeInsets.symmetric(
-          horizontal: setWidthValue(30),
-          vertical: setHeightValue(10)
-        ),
+            horizontal: setWidthValue(30), vertical: setHeightValue(10)),
         margin: EdgeInsets.all(setHeightValue(10)),
         decoration: BoxDecoration(
             color: AppColors.cardColor,
@@ -340,7 +340,8 @@ class AssignmentCard extends StatelessWidget {
               height: setHeightValue(100),
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(AppSizeConstant.kCardRadius),
+                  borderRadius:
+                      BorderRadius.circular(AppSizeConstant.kCardRadius),
                   image: DecorationImage(
                       image: AssetImage(AssetsConstant.kArabic),
                       fit: BoxFit.contain)),
@@ -352,11 +353,32 @@ class AssignmentCard extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      Expanded(child: AppTextBold(text: 'Drawing Of Nature', size: 18)),
-                      AppTextRegular(
-                        text: '22-08-22',
-                        size: 14,
-                      )
+                      Expanded(
+                          child:
+                              AppTextBold(text: 'Drawing Of Nature', size: 18)),
+
+                      if(isSubmitted)...[
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: setWidthValue(20), vertical: setHeightValue(5)),
+                          margin: EdgeInsets.symmetric(horizontal: setWidthValue(5)),
+                          decoration: BoxDecoration(
+                              color: Theme.of(context).primaryColor,
+                              borderRadius: BorderRadius.circular(setHeightValue(5))),
+                          child: AppTextBold(
+                            text: 'Accepted',
+                            color: Theme.of(context).scaffoldBackgroundColor,
+                            size: 12,
+                          ),
+                        )
+                      ]
+                      else...[
+                        AppTextRegular(
+                          text: '22-08-22',
+                          size: 14,
+                        )
+                      ]
+
                     ],
                   ),
                   setHeight(5),
@@ -373,6 +395,76 @@ class AssignmentCard extends StatelessWidget {
               ),
             )
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class MultiTextCard extends StatelessWidget {
+  MultiTextCard({super.key, required this.head, required this.text});
+
+  String head;
+  String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: Get.width,
+      margin: EdgeInsets.all(setHeightValue(10)),
+      padding: EdgeInsets.all(setHeightValue(20)),
+      decoration: BoxDecoration(
+          color: AppColors.cardColor,
+          borderRadius: BorderRadius.circular(AppSizeConstant.kCardRadius)),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          titleSubTitleColumnText(
+              head: head,
+              title: text,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              textSize: 18,
+              headSize: 14),
+        ],
+      ),
+    );
+  }
+}
+
+class SubjectSelectionButton extends StatelessWidget {
+  SubjectSelectionButton(
+      {super.key,
+      required this.controller,
+      required this.element,
+      required this.onSubjectSelected});
+
+  SubjectModel element;
+  var controller;
+
+  var onSubjectSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        controller.selectedSubject(element);
+      },
+      child: Container(
+        padding: EdgeInsets.symmetric(
+            horizontal: setWidthValue(30), vertical: setHeightValue(7)),
+        margin: EdgeInsets.symmetric(horizontal: setWidthValue(5)),
+        decoration: BoxDecoration(
+            color: controller.selectedSubject.value.title == element.title
+                ? Theme.of(context).primaryColor
+                : AppColors.transparent,
+            borderRadius: BorderRadius.circular(setHeightValue(10))),
+        child: AppTextBold(
+          text: element.title,
+          color: controller.selectedSubject.value.title == element.title
+              ? Theme.of(context).scaffoldBackgroundColor
+              : Theme.of(context).primaryColor,
         ),
       ),
     );

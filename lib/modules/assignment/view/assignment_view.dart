@@ -121,33 +121,17 @@ class AssignmentView extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: controller.subjectsList
-                      .map((element) => GestureDetector(
-                            onTap: () {
-                              controller.selectedSubject(element);
-                            },
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: setWidthValue(30),
-                                  vertical: setHeightValue(7)),
-                              margin: EdgeInsets.symmetric(
-                                  horizontal: setWidthValue(5)),
-                              decoration: BoxDecoration(
-                                  color:
-                                      controller.selectedSubject.value.title ==
-                                              element.title
-                                          ? Theme.of(context).primaryColor
-                                          : AppColors.transparent,
-                                  borderRadius: BorderRadius.circular(
-                                      setHeightValue(10))),
-                              child: AppTextBold(
-                                text: element.title,
-                                color: controller.selectedSubject.value.title ==
-                                        element.title
-                                    ? Theme.of(context).scaffoldBackgroundColor
-                                    : Theme.of(context).primaryColor,
-                              ),
-                            ),
-                          ))
+                      .map(
+                        (element) => SubjectSelectionButton(
+                          controller: controller,
+                          element: element,
+                          onSubjectSelected: (value) {
+                            if (value != null) {
+                              controller.selectedSubject(value);
+                            }
+                          },
+                        ),
+                      )
                       .toList(),
                 ),
               )),
@@ -157,8 +141,11 @@ class AssignmentView extends StatelessWidget {
                 itemCount: 15,
                 itemBuilder: (context, index) {
                   return AssignmentCard(
-                    onClick: (){
-                      Get.to(()=>AssignmentDetailView());
+                    isSubmitted: true,
+                    onClick: () {
+                      Get.to(() => AssignmentDetailView(
+
+                      ));
                     },
                   );
                 }),
