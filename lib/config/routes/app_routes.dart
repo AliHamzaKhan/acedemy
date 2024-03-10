@@ -16,6 +16,13 @@ abstract class AppRoutes{
   static const String profile = '/profile';
   static const String chatList = '/chat_list';
   static const String chat = '/chat';
+  static const String attendance = '/attendance';
+  static const String timeTable = '/time_table';
+  static const String noticeBoard = '/notice_board';
+  static const String exams = '/exams';
+  static const String result = '/result';
+  static const String setting = '/setting';
+  static const String report = '/report';
 
   static String kChatWithUser(String id) =>
       "$chat/$id";

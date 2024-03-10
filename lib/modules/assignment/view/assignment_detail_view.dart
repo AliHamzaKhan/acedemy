@@ -7,6 +7,7 @@ import '../../../config/theme/app_colors.dart';
 import '../../../config/theme/app_gradient.dart';
 import '../../../constant/app_key_contant.dart';
 import '../../../constant/assets_contant.dart';
+import '../../../widgets/app_appbar.dart';
 import '../../../widgets/app_bottom_sheet.dart';
 import '../../../widgets/app_cards.dart';
 import '../../../widgets/app_scaffold.dart';
@@ -25,7 +26,9 @@ class AssignmentDetailView extends StatelessWidget {
           height: Get.height,
           child: Column(
             children: [
-              top(context),
+              appWithStyle(context,
+                  title: 'Assignment',
+                  trailing: const SizedBox(width: 30,)),
               setHeight(10),
               details(),
             ],
@@ -34,7 +37,7 @@ class AssignmentDetailView extends StatelessWidget {
           ? AppIconButton(
               icon: AssetsConstant.kUploadFill,
               onTap: () {
-                showUploadFiles(context);
+                showUploadFiles(context, onAddFile: () {});
               },
               iconSize: 30,
               width: 50,
@@ -42,49 +45,6 @@ class AssignmentDetailView extends StatelessWidget {
             )
           : null,
     );
-  }
-
-  top(context) {
-    return Container(
-        height: Get.height * 0.10,
-        width: Get.width,
-        padding: EdgeInsets.all(setWidthValue(20)),
-        decoration: BoxDecoration(
-            color: Theme.of(context).primaryColor,
-            gradient: appLinearGradient(),
-            borderRadius: BorderRadius.only(
-                bottomLeft:
-                    Radius.circular(setHeightValue(AppSizeConstant.kAppRadius)),
-                bottomRight: Radius.circular(
-                    setHeightValue(AppSizeConstant.kAppRadius)))),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            InkWell(
-              onTap: () {
-                Get.back();
-              },
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Image.asset(
-                  AssetsConstant.kBackArrowFill,
-                  width: 30,
-                  height: 30,
-                  color: Theme.of(context).scaffoldBackgroundColor,
-                  fit: BoxFit.contain,
-                ),
-              ),
-            ),
-            AppTextBold(
-              text: 'Assignment',
-              size: 25,
-              color: Theme.of(context).scaffoldBackgroundColor,
-            ),
-            const SizedBox(
-              width: 30,
-            )
-          ],
-        ));
   }
 
   details() {

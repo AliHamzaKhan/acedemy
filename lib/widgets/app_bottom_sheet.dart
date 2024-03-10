@@ -87,11 +87,9 @@ void menuSheet(context) {
               mainAxisSpacing: setHeightValue(0),
               crossAxisSpacing: setHeightValue(0),
               padding: EdgeInsets.all(setHeightValue(0)),
-              children: menus
-                  .map((e) => MenuCard(
+              children: menus.map((e) => MenuCard(
                         menuModel: e,
-                      ))
-                  .toList(),
+                      )).toList(),
             )),
           ],
         ),
@@ -194,9 +192,7 @@ void showSortingSheet(context,
   );
 }
 
-void showUploadFiles(
-  context,
-) {
+void showUploadFiles(context, {required Function onAddFile}) {
   showModalBottomSheet(
     context: context,
     isScrollControlled: true,
@@ -221,13 +217,17 @@ void showUploadFiles(
                   text: 'Upload File',
                   size: 18,
                 ),
-                IconButton(onPressed: () {}, icon: Icon(Icons.close))
+                IconButton(
+                    onPressed: () {
+                      Get.back();
+                    },
+                    icon: const Icon(Icons.close))
               ],
             ),
             appDivider(context),
             setHeight(10),
             DottedBorder(
-              dashPattern: [5 , 5],
+              dashPattern: const [5, 5],
               borderType: BorderType.RRect,
               color: Colors.black,
               strokeWidth: 0.5,
@@ -237,11 +237,11 @@ void showUploadFiles(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   AppIconButton(
-                    width: 30,
+                      width: 30,
                       height: 30,
                       iconSize: 15,
                       icon: AssetsConstant.kAddFill,
-                      onTap: () {}),
+                      onTap: onAddFile),
                   setWidth(10),
                   AppTextExtraLight(text: 'Add Files')
                 ],

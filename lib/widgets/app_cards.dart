@@ -18,8 +18,9 @@ class MenuCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        // Get.toNamed(menuModel.onClick);
+      onTap: (){
+        Get.back();
+        menuModel.onClick();
       },
       child: Column(
         children: [
@@ -333,19 +334,19 @@ class AssignmentCard extends StatelessWidget {
             borderRadius: BorderRadius.circular(AppSizeConstant.kCardRadius)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Container(
-              width: setHeightValue(100),
-              height: setHeightValue(100),
+              width: setHeightValue(70),
+              height: setHeightValue(70),
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                  borderRadius:
-                      BorderRadius.circular(AppSizeConstant.kCardRadius),
+                  borderRadius: BorderRadius.circular(AppSizeConstant.kCardRadius),
                   image: DecorationImage(
-                      image: AssetImage(AssetsConstant.kArabic),
+                      image: AssetImage(AssetsConstant.kEnglish),
                       fit: BoxFit.contain)),
             ),
+            setWidth(10),
             Flexible(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,

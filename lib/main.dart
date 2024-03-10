@@ -5,6 +5,7 @@ import 'package:get/get.dart';
 import 'package:stacked_themes/stacked_themes.dart';
 import 'config/pages/app_pages.dart';
 import 'config/services/theme_management_service.dart';
+import 'modules/test.dart';
 
 Future main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,6 +19,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // return MaterialApp(
+    //   home: Scaffold(
+    //     appBar: AppBar(
+    //       title: Text('Meter Widget'),
+    //     ),
+    //     body: Center(
+    //       child: MeterWidget(value: 1.2),
+    //     ),
+    //   ),
+    // );
     return ThemeBuilder(
       themes: getThemes(),
       builder: (context, regularTheme, darkTheme, themeMode){

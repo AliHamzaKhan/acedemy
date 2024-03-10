@@ -6,12 +6,13 @@ import 'package:get/get.dart';
 
 import '../../../widgets/app_appbar.dart';
 import '../../../widgets/app_scaffold.dart';
-import '../controller/attendance_controller.dart';
+import '../controller/notice_board_controller.dart';
 
-class AttendanceView extends StatelessWidget {
-  AttendanceView({super.key});
+class NoticeBoardView extends StatelessWidget {
+  NoticeBoardView({super.key});
 
-  var controller = Get.put(AttendanceController());
+  var controller = Get.put(NoticeBoardController());
+
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
@@ -21,7 +22,7 @@ class AttendanceView extends StatelessWidget {
           child: Column(
             children: [
               appWithStyle(context,
-                  title: 'Attendance',
+                  title: 'Notice Board',
                   trailing: SizedBox(width: 30,)
               ),
             ],

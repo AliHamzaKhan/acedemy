@@ -8,13 +8,13 @@ import 'package:get/get.dart';
 import '../../../config/demo/demo_content.dart';
 
 class LoginController extends GetxController{
-
-  var isParent = false.obs;
+  Rx<LoginType> loginType = LoginType.Student.obs;
   var schoolList = <String>[].obs;
   var selectedSchool = 'Noor Public School'.obs;
 
   var emailController = TextEditingController();
   var passwordController = TextEditingController();
+
 
   addSchool(){
     schoolList.addAll(demoSchoolList);
@@ -23,7 +23,7 @@ class LoginController extends GetxController{
 
 
   getArgs(){
-    isParent.value = Get.arguments['isParent'] ?? false.obs;
+    loginType.value = Get.arguments['loginType'] ?? LoginType.Student;
   }
   @override
   void onInit() {
@@ -39,4 +39,11 @@ class LoginController extends GetxController{
     emailController.dispose();
     passwordController.dispose();
   }
+}
+
+enum LoginType{
+  Student,
+  Parents,
+  Teacher,
+  Management
 }

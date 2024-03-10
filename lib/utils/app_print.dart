@@ -12,7 +12,5 @@ appDebugPrint(value, {bool full = false}){
     else{
       print(value);
     }
-
   }
-
 }

@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../constant/app_key_contant.dart';
 import '../../../widgets/app_scaffold.dart';
+import '../controller/login_controller.dart';
 
 class LoginSelectionView extends StatelessWidget {
   const LoginSelectionView({super.key});
@@ -92,7 +93,7 @@ class LoginSelectionView extends StatelessWidget {
                       title: 'Login as Student',
                       onTap: () {
                         Get.toNamed(AppRoutes.login,
-                            arguments: {'isParent': false});
+                            arguments: {'loginType': LoginType.Student});
                       },
                       btnColor: AppColors.background,
                       isShadow: false,
@@ -105,8 +106,8 @@ class LoginSelectionView extends StatelessWidget {
                     AppButton(
                       title: 'Login as Teacher',
                       onTap: () {
-                        // Get.toNamed(AppRoutes.login,
-                        //     arguments: {'isParent': true});
+                        Get.toNamed(AppRoutes.login,
+                            arguments: {'loginType': LoginType.Teacher});
                       },
                       btnColor: AppColors.primary,
                       isShadow: false,

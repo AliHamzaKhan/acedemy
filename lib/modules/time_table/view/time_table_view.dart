@@ -6,12 +6,12 @@ import 'package:get/get.dart';
 
 import '../../../widgets/app_appbar.dart';
 import '../../../widgets/app_scaffold.dart';
-import '../controller/attendance_controller.dart';
+import '../controller/time_table_controller.dart';
 
-class AttendanceView extends StatelessWidget {
-  AttendanceView({super.key});
+class TimeTableView extends StatelessWidget {
+  TimeTableView({super.key});
 
-  var controller = Get.put(AttendanceController());
+  var controller = Get.put(TimeTableController());
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
@@ -21,7 +21,7 @@ class AttendanceView extends StatelessWidget {
           child: Column(
             children: [
               appWithStyle(context,
-                  title: 'Attendance',
+                  title: 'Time Table',
                   trailing: SizedBox(width: 30,)
               ),
             ],

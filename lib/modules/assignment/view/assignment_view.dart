@@ -121,18 +121,18 @@ class AssignmentView extends StatelessWidget {
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: controller.subjectsList
-                      .map(
-                        (element) => SubjectSelectionButton(
+                      .map((element) => SubjectSelectionButton(
                           controller: controller,
                           element: element,
                           onSubjectSelected: (value) {
+                            appDebugPrint(value);
                             if (value != null) {
                               controller.selectedSubject(value);
+                              controller.selectedSubject.refresh();
                             }
                           },
                         ),
-                      )
-                      .toList(),
+                      ).toList(),
                 ),
               )),
 
@@ -143,9 +143,7 @@ class AssignmentView extends StatelessWidget {
                   return AssignmentCard(
                     isSubmitted: true,
                     onClick: () {
-                      Get.to(() => AssignmentDetailView(
-
-                      ));
+                      Get.to(() => AssignmentDetailView());
                     },
                   );
                 }),
