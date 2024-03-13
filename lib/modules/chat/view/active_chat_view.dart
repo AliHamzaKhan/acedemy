@@ -26,7 +26,6 @@ class ActiveChatView extends StatelessWidget {
       height: Get.height,
       child: Column(
         children: [
-
           appWithStyle(context, title: 'Ali Hamza'),
           Expanded(
             child: ListView.builder(
@@ -38,8 +37,8 @@ class ActiveChatView extends StatelessWidget {
                 }),
           ),
           ChatFooter(
-            onChange: (value){},
-            onClick: (){},
+            onChange: (value) {},
+            onClick: () {},
           )
         ],
       ),

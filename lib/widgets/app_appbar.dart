@@ -39,11 +39,22 @@ appAppBar(context,
   );
 }
 
-appWithStyle(context, {double? height, String? title,Widget? trailing, Widget? leading}) {
+appWithStyle(context,
+    {double? height,
+    String? title,
+    Widget? trailing,
+    Widget? leading,
+    CrossAxisAlignment? crossAxisAlignment,
+    MainAxisAlignment? mainAxisAlignment,
+    EdgeInsets? padding,
+    EdgeInsets? margin,
+    Alignment? alignment}) {
   return Container(
       height: height ?? (Get.height * 0.10),
       width: Get.width,
-      padding: EdgeInsets.all(setWidthValue(20)),
+      padding: padding ?? EdgeInsets.all(setWidthValue(20)),
+      margin: margin,
+      alignment: alignment,
       decoration: BoxDecoration(
           color: Theme.of(context).primaryColor,
           gradient: appLinearGradient(),
@@ -53,9 +64,9 @@ appWithStyle(context, {double? height, String? title,Widget? trailing, Widget? l
               bottomRight:
                   Radius.circular(setHeightValue(AppSizeConstant.kAppRadius)))),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: mainAxisAlignment ?? MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: crossAxisAlignment ?? CrossAxisAlignment.center,
         children: [
-
           (leading ??
               InkWell(
                 onTap: () {
@@ -77,7 +88,6 @@ appWithStyle(context, {double? height, String? title,Widget? trailing, Widget? l
             size: 25,
             color: Theme.of(context).scaffoldBackgroundColor,
           ),
-
           (trailing ??
               GestureDetector(
                 onTap: () {

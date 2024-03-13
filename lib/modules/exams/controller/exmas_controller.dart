@@ -11,7 +11,11 @@ class ExamsController extends GetxController{
 }
 
 enum ExamType{
-  All,
-  Upcoming,
-  Ongoing
+  All('All Exam'),
+  Upcoming('Upcoming'),
+  Ongoing('Ongoing'),
+  Completed('Completed');
+
+  const ExamType(this.value);
+  final String value;
 }

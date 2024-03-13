@@ -3,5 +3,6 @@
 
 enum CardType{
   Assignment,
-  TimeTable
+  TimeTable,
+  Exam
 }

@@ -20,9 +20,10 @@ abstract class AppRoutes{
   static const String timeTable = '/time_table';
   static const String noticeBoard = '/notice_board';
   static const String exams = '/exams';
-  static const String result = '/result';
+  static const String resultList = '/result_list';
   static const String setting = '/setting';
   static const String report = '/report';
+  static const String holiday = '/holiday';
 
   static String kChatWithUser(String id) =>
       "$chat/$id";

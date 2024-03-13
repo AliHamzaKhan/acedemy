@@ -307,13 +307,15 @@ Widget titleSubTitleText(
     int? headFlex,
     Color? textColor,
       double? textSize,
-      Color? headColor}) {
+      Color? headColor,
+      TextAlign? textAlign,
+    }) {
   return Row(
     mainAxisAlignment: MainAxisAlignment.center,
     crossAxisAlignment: crossAxisAlignment ?? CrossAxisAlignment.start,
     children: [
       AppTextExtraLight(
-        text: '$head:',
+        text: head,
         size: textSize ?? 13,
         color: textColor ?? AppColors.text,
         align: TextAlign.left,
@@ -323,7 +325,7 @@ Widget titleSubTitleText(
           child: AppTextRegular(
         text: title,
         size: textSize ?? 13,
-        align: TextAlign.start,
+        align: textAlign ?? TextAlign.end,
         color: textColor ?? AppColors.text,
         maxLines: maxLines,
         overFlow: TextOverflow.clip,

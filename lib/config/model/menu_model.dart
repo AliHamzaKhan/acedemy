@@ -55,7 +55,7 @@ List<MenuModel> menus = <MenuModel>[
       title: 'Result',
       image: AssetsConstant.kResult,
       onClick: (){
-        Get.toNamed(AppRoutes.result);
+        Get.toNamed(AppRoutes.resultList);
       },
       params: ''),
   MenuModel(
@@ -76,7 +76,9 @@ List<MenuModel> menus = <MenuModel>[
       id: 1,
       title: 'Holiday',
       image: AssetsConstant.kHoliday,
-      onClick: null,
+      onClick: (){
+        Get.toNamed(AppRoutes.holiday);
+      },
       params: ''),
   MenuModel(
       id: 1,

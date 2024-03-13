@@ -1,5 +1,6 @@
 import 'package:acedemy/config/services/auth_service.dart';
 import 'package:acedemy/constant/assets_contant.dart';
+import 'package:acedemy/widgets/app_divider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../config/enum/card_type.dart';
@@ -388,11 +389,17 @@ class AssignmentCard extends StatelessWidget {
                           ),
                         )
                       ] else ...[
-                        if(cardType == CardType.Assignment)
-                        AppTextRegular(
-                          text: '22-08-22',
-                          size: 14,
-                        )
+                        if (cardType == CardType.Assignment)
+                          AppTextRegular(
+                            text: '22-08-22',
+                            size: 14,
+                          ),
+                        if (cardType == CardType.Exam) ...[
+                          AppTextRegular(
+                            text: '100 Marks',
+                            size: 14,
+                          ),
+                        ]
                       ]
                     ],
                   ),
@@ -402,19 +409,24 @@ class AssignmentCard extends StatelessWidget {
                     size: 14,
                   ),
                   setHeight(15),
-                  if(cardType == CardType.Assignment)...[
+                  if (cardType == CardType.Assignment) ...[
                     AppTextBold(
                       text: 'Due 22, March 2024, 01:29 AM',
                       size: 14,
                     )
                   ],
-                  if(cardType == CardType.TimeTable)...[
+                  if (cardType == CardType.TimeTable) ...[
                     AppTextRegular(
                       text: 'Teacher Demo',
                       size: 14,
                     ),
+                  ],
+                  if (cardType == CardType.Exam) ...[
+                    AppTextRegular(
+                      text: 'Due 22, March 2024, 01:29 AM',
+                      size: 14,
+                    ),
                   ]
-
                 ],
               ),
             )
@@ -462,13 +474,16 @@ class SubjectSelectionButton extends StatelessWidget {
       {super.key,
       required this.element,
       required this.onSubjectSelected,
-      required this.selectedSubject});
+      required this.selectedSubject,
+      this.showImage = true});
 
   SubjectModel element;
 
   var onSubjectSelected;
 
   SubjectModel selectedSubject;
+
+  bool showImage;
 
   @override
   Widget build(BuildContext context) {
@@ -479,7 +494,7 @@ class SubjectSelectionButton extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.symmetric(
             horizontal: setWidthValue(30), vertical: setHeightValue(7)),
-        margin: EdgeInsets.symmetric(horizontal: setWidthValue(5)),
+        margin: EdgeInsets.symmetric(horizontal: setWidthValue(15)),
         decoration: BoxDecoration(
             color: selectedSubject.title == element.title
                 ? Theme.of(context).primaryColor
@@ -489,16 +504,18 @@ class SubjectSelectionButton extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            if (element.image != '')
-              Image.asset(
-                element.image,
-                width: setHeightValue(15),
-                height: setHeightValue(15),
-                // color: controller.selectedSubject.value.title == element.title
-                //     ? Theme.of(context).scaffoldBackgroundColor
-                //     : Theme.of(context).primaryColor,
-              ),
-            setWidth(5),
+            if (showImage)
+              if (element.image != '') ...[
+                Image.asset(
+                  element.image,
+                  width: setHeightValue(15),
+                  height: setHeightValue(15),
+                  // color: controller.selectedSubject.value.title == element.title
+                  //     ? Theme.of(context).scaffoldBackgroundColor
+                  //     : Theme.of(context).primaryColor,
+                ),
+                setWidth(5),
+              ],
             AppTextBold(
               text: element.title,
               color: selectedSubject.title == element.title
@@ -556,37 +573,40 @@ class NoticeBoardCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(
-          horizontal: setWidthValue(30),
-          vertical: setHeightValue(20)
-      ),
+          horizontal: setWidthValue(30), vertical: setHeightValue(20)),
       margin: EdgeInsets.symmetric(
-        horizontal: setWidthValue(30),
-        vertical: setHeightValue(10)
-      ),
+          horizontal: setWidthValue(30), vertical: setHeightValue(10)),
       decoration: BoxDecoration(
-        color: AppColors.cardColor,
-        borderRadius: BorderRadius.circular(setHeightValue(10))
-      ),
+          color: AppColors.cardColor,
+          borderRadius: BorderRadius.circular(setHeightValue(10))),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          AppTextMedium(text: 'Holiday', size: 16,),
-          AppTextRegular(text: 'Due to bad weather', size: 14,),
-          AppTextExtraLight(text: '7 month ago', size: 13,),
+          AppTextMedium(
+            text: 'Holiday',
+            size: 16,
+          ),
+          AppTextRegular(
+            text: 'Due to bad weather',
+            size: 14,
+          ),
+          AppTextExtraLight(
+            text: '7 month ago',
+            size: 13,
+          ),
         ],
       ),
     );
   }
 }
 
-
 class ExamFilterSelection extends StatelessWidget {
   ExamFilterSelection(
       {super.key,
-        required this.examEnum,
-        required this.onSelected,
-        required this.selectedExamEnum});
+      required this.examEnum,
+      required this.onSelected,
+      required this.selectedExamEnum});
 
   ExamType examEnum;
   ExamType selectedExamEnum;
@@ -607,7 +627,7 @@ class ExamFilterSelection extends StatelessWidget {
                 : AppColors.cardColor,
             borderRadius: BorderRadius.circular(setHeightValue(5))),
         child: AppTextBold(
-          text: examEnum.name,
+          text: examEnum.value,
           color: selectedExamEnum == examEnum
               ? Theme.of(context).scaffoldBackgroundColor
               : Theme.of(context).primaryColor,
@@ -618,4 +638,123 @@ class ExamFilterSelection extends StatelessWidget {
   }
 }
 
+class ExamListCard extends StatelessWidget {
+  ExamListCard({super.key, this.onClick});
 
+  var onClick;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onClick,
+      child: Container(
+        padding: EdgeInsets.symmetric(
+            horizontal: setWidthValue(30), vertical: setHeightValue(20)),
+        margin: EdgeInsets.symmetric(
+            horizontal: setWidthValue(30), vertical: setHeightValue(10)),
+        decoration: BoxDecoration(
+            color: AppColors.cardColor,
+            borderRadius: BorderRadius.circular(setHeightValue(10))),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                AppTextRegular(
+                  text: 'Holiday',
+                  size: 16,
+                ),
+                AppTextExtraLight(
+                  text: 'Due to bad weather',
+                  size: 14,
+                ),
+              ],
+            ),
+            AppTextMedium(
+              text: '7 month ago',
+              size: 13,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ResultCard extends StatelessWidget {
+  ResultCard({super.key, this.isOffline = true, this.onClick});
+
+  bool isOffline;
+  var onClick;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onClick,
+      child: Container(
+        padding: EdgeInsets.symmetric(
+            horizontal: setWidthValue(30), vertical: setHeightValue(20)),
+        margin: EdgeInsets.symmetric(
+            horizontal: setWidthValue(30), vertical: setHeightValue(10)),
+        decoration: BoxDecoration(
+            color: AppColors.cardColor,
+            borderRadius: BorderRadius.circular(setHeightValue(10))),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (isOffline) ...[
+              titleSubTitleText(head: 'Exam Name', title: 'Date 21-08-2023'),
+              AppTextMedium(text: 'First Chapter'),
+              appDivider(context),
+              Row(
+                children: [
+                  Expanded(
+                      child: titleSubTitleText(
+                          head: 'Grade -',
+                          title: 'A',
+                          textAlign: TextAlign.start)),
+                  Expanded(
+                      child: titleSubTitleText(
+                          head: 'Percentage :',
+                          title: '80.00%',
+                          textAlign: TextAlign.start)),
+                ],
+              )
+            ] else ...[
+              Row(
+                children: [
+                  Expanded(
+                      child: titleSubTitleText(
+                          head: 'Grade -',
+                          title: 'A',
+                          textAlign: TextAlign.start)),
+                  Expanded(
+                      child: titleSubTitleText(
+                          head: 'Percentage :',
+                          title: '80.00%',
+                          textAlign: TextAlign.start)),
+                ],
+              ),
+              Row(
+                children: [
+                  Expanded(
+                      child: AppTextBold(
+                    text: 'test 1',
+                  )),
+                  Expanded(
+                      child: titleSubTitleText(
+                          head: 'Marks :',
+                          title: '22 / 10',
+                          textAlign: TextAlign.start)),
+                ],
+              ),
+            ]
+          ],
+        ),
+      ),
+    );
+  }
+}

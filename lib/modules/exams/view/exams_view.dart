@@ -10,6 +10,7 @@ import '../../../widgets/app_cards.dart';
 import '../../../widgets/app_scaffold.dart';
 import '../../../widgets/app_text.dart';
 import '../controller/exmas_controller.dart';
+import 'exam_time_table.dart';
 
 class ExamsView extends StatelessWidget {
   ExamsView({super.key});
@@ -94,6 +95,17 @@ class ExamsView extends StatelessWidget {
                       selectedExamEnum: controller.selectedExamType.value,
                     ))
                 .toList(),
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: 15,
+                itemBuilder: (context, index){
+              return ExamListCard(
+                onClick: (){
+                  Get.to(()=>ExamTimeTable());
+                },
+              );
+            }),
           )
         ],
       ),
