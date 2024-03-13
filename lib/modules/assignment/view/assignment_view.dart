@@ -115,33 +115,34 @@ class AssignmentView extends StatelessWidget {
                 ],
               )),
           setHeight(10),
+
           Obx(() => SingleChildScrollView(
-                padding: EdgeInsets.symmetric(
-                    horizontal: setWidthValue(30), vertical: setHeightValue(5)),
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: controller.subjectsList
-                      .map((element) => SubjectSelectionButton(
-                          controller: controller,
-                          element: element,
-                          onSubjectSelected: (value) {
-                            appDebugPrint(value);
-                            if (value != null) {
-                              controller.selectedSubject(value);
-                              controller.selectedSubject.refresh();
-                            }
-                          },
-                        ),
-                      ).toList(),
-                ),
-              )),
+            padding: EdgeInsets.symmetric(
+                horizontal: setWidthValue(30), vertical: setHeightValue(5)),
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: controller.subjectsList
+                  .map((element) => SubjectSelectionButton(
+                element: element,
+                onSubjectSelected: (value) {
+                  appDebugPrint(value);
+                  if (value != null) {
+                    controller.selectedSubject.value = value;
+                  }
+                  controller.update();
+                },
+                selectedSubject: controller.selectedSubject.value,
+              ),
+              ).toList(),
+            ),
+          )),
 
           Expanded(
             child: ListView.builder(
                 itemCount: 15,
                 itemBuilder: (context, index) {
                   return AssignmentCard(
-                    isSubmitted: true,
+                    isSubmitted: controller.isAssigned.value,
                     onClick: () {
                       Get.to(() => AssignmentDetailView());
                     },

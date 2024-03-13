@@ -22,6 +22,7 @@ List<ThemeData> getThemes() {
 
 
 final appDefaultTheme = ThemeData(
+  useMaterial3: true,
   scrollbarTheme: const ScrollbarThemeData().copyWith(
     thumbColor: MaterialStateProperty.all(Colors.red[500]),
   ),
@@ -68,6 +69,7 @@ final appDefaultTheme = ThemeData(
 );
 
 final appDarkDefaultTheme = ThemeData(
+  useMaterial3: true,
   scrollbarTheme: ScrollbarThemeData().copyWith(
     thumbColor: MaterialStateProperty.all(Colors.red[500]),
   ),

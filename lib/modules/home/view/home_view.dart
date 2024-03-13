@@ -73,7 +73,7 @@ class HomeView extends StatelessWidget {
     return Container(
       height: Get.height * 0.20,
       width: Get.width,
-      padding: EdgeInsets.all(setWidthValue(20)),
+      padding: EdgeInsets.symmetric(horizontal: setWidthValue(20)),
       decoration: BoxDecoration(
           color: Theme.of(context).primaryColor,
           gradient: appLinearGradient(),
@@ -86,20 +86,22 @@ class HomeView extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          InkWell(
-            onTap: () {
-              // controller.openDrawer();
-              menuSheet(context);
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(0),
-              child: Image.asset(
-                AssetsConstant.kMenu,
-                color: Theme.of(context).scaffoldBackgroundColor,
-                width: 40,
-                height: 40,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              AppIconButton(
+                icon: AssetsConstant.kMenu,
+                onTap: () {
+                  menuSheet(context);
+                },
               ),
-            ),
+              AppIconButton(
+                icon: AssetsConstant.kNotification,
+                onTap: () {
+                  Get.toNamed(AppRoutes.notification);
+                },
+              )
+            ],
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
@@ -135,12 +137,6 @@ class HomeView extends StatelessWidget {
                     textSize: 18,
                     textColor: AppColors.background),
               ),
-              AppIconButton(
-                icon: AssetsConstant.kNotification,
-                onTap: () {
-                  Get.toNamed(AppRoutes.notification);
-                },
-              )
             ],
           )
         ],
@@ -185,9 +181,9 @@ class HomeView extends StatelessWidget {
             children: [
               Container(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(AppSizeConstant.kCardRadius),
-                  border: Border.all(color: AppColors.borderColor)
-                ),
+                    borderRadius:
+                        BorderRadius.circular(AppSizeConstant.kCardRadius),
+                    border: Border.all(color: AppColors.borderColor)),
                 child: GridView.builder(
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
@@ -196,8 +192,8 @@ class HomeView extends StatelessWidget {
                       crossAxisSpacing: 7,
                       mainAxisSpacing: 7,
                       mainAxisExtent: 42),
-                  itemCount: controller.daysInMonth(
-                      controller.currentDate.year, controller.currentDate.month),
+                  itemCount: controller.daysInMonth(controller.currentDate.year,
+                      controller.currentDate.month),
                   itemBuilder: (context, index) {
                     DateTime day = DateTime(controller.currentDate.year,
                         controller.currentDate.month, index + 1);
@@ -211,7 +207,9 @@ class HomeView extends StatelessWidget {
                         height: setHeightValue(30),
                         decoration: BoxDecoration(
                           // color: isPresent ? presentColor : absentColor,
-                          color: index % 2 == 0 ? AppColors.transparent : absentColor,
+                          color: index % 2 == 0
+                              ? AppColors.transparent
+                              : absentColor,
                           shape: BoxShape.rectangle,
                         ),
                         alignment: Alignment.center,

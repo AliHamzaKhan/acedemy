@@ -1,0 +1,7 @@
+
+
+
+enum CardType{
+  Assignment,
+  TimeTable
+}

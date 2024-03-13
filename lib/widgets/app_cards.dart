@@ -2,12 +2,15 @@ import 'package:acedemy/config/services/auth_service.dart';
 import 'package:acedemy/constant/assets_contant.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import '../config/enum/card_type.dart';
 import '../config/model/event_model.dart';
 import '../config/model/menu_model.dart';
 import '../config/model/subject_model.dart';
 import '../config/size_config.dart';
 import '../config/theme/app_colors.dart';
 import '../constant/app_key_contant.dart';
+import '../modules/exams/controller/exmas_controller.dart';
+import '../modules/time_table/controller/time_table_controller.dart';
 import 'app_text.dart';
 
 class MenuCard extends StatelessWidget {
@@ -18,9 +21,12 @@ class MenuCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         Get.back();
-        menuModel.onClick();
+
+        if (menuModel.onClick != null) {
+          menuModel.onClick();
+        }
       },
       child: Column(
         children: [
@@ -316,10 +322,16 @@ class MessageCard extends StatelessWidget {
 }
 
 class AssignmentCard extends StatelessWidget {
-  AssignmentCard({super.key, this.onClick, this.isSubmitted = false});
+  AssignmentCard(
+      {super.key,
+      this.onClick,
+      this.isSubmitted = false,
+      this.cardType = CardType.Assignment});
 
   var onClick;
   bool isSubmitted;
+
+  CardType cardType;
 
   @override
   Widget build(BuildContext context) {
@@ -341,7 +353,8 @@ class AssignmentCard extends StatelessWidget {
               height: setHeightValue(70),
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(AppSizeConstant.kCardRadius),
+                  borderRadius:
+                      BorderRadius.circular(AppSizeConstant.kCardRadius),
                   image: DecorationImage(
                       image: AssetImage(AssetsConstant.kEnglish),
                       fit: BoxFit.contain)),
@@ -357,29 +370,30 @@ class AssignmentCard extends StatelessWidget {
                       Expanded(
                           child:
                               AppTextBold(text: 'Drawing Of Nature', size: 18)),
-
-                      if(isSubmitted)...[
+                      if (isSubmitted) ...[
                         Container(
                           padding: EdgeInsets.symmetric(
-                              horizontal: setWidthValue(20), vertical: setHeightValue(5)),
-                          margin: EdgeInsets.symmetric(horizontal: setWidthValue(5)),
+                              horizontal: setWidthValue(20),
+                              vertical: setHeightValue(5)),
+                          margin: EdgeInsets.symmetric(
+                              horizontal: setWidthValue(5)),
                           decoration: BoxDecoration(
                               color: Theme.of(context).primaryColor,
-                              borderRadius: BorderRadius.circular(setHeightValue(5))),
+                              borderRadius:
+                                  BorderRadius.circular(setHeightValue(5))),
                           child: AppTextBold(
                             text: 'Accepted',
                             color: Theme.of(context).scaffoldBackgroundColor,
                             size: 12,
                           ),
                         )
-                      ]
-                      else...[
+                      ] else ...[
+                        if(cardType == CardType.Assignment)
                         AppTextRegular(
                           text: '22-08-22',
                           size: 14,
                         )
                       ]
-
                     ],
                   ),
                   setHeight(5),
@@ -388,10 +402,19 @@ class AssignmentCard extends StatelessWidget {
                     size: 14,
                   ),
                   setHeight(15),
-                  AppTextBold(
-                    text: 'Due 22, March 2024, 01:29 AM',
-                    size: 14,
-                  )
+                  if(cardType == CardType.Assignment)...[
+                    AppTextBold(
+                      text: 'Due 22, March 2024, 01:29 AM',
+                      size: 14,
+                    )
+                  ],
+                  if(cardType == CardType.TimeTable)...[
+                    AppTextRegular(
+                      text: 'Teacher Demo',
+                      size: 14,
+                    ),
+                  ]
+
                 ],
               ),
             )
@@ -437,37 +460,162 @@ class MultiTextCard extends StatelessWidget {
 class SubjectSelectionButton extends StatelessWidget {
   SubjectSelectionButton(
       {super.key,
-      required this.controller,
       required this.element,
-      required this.onSubjectSelected});
+      required this.onSubjectSelected,
+      required this.selectedSubject});
 
   SubjectModel element;
-  var controller;
 
   var onSubjectSelected;
+
+  SubjectModel selectedSubject;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        controller.selectedSubject(element);
+        onSubjectSelected(element);
       },
       child: Container(
         padding: EdgeInsets.symmetric(
             horizontal: setWidthValue(30), vertical: setHeightValue(7)),
         margin: EdgeInsets.symmetric(horizontal: setWidthValue(5)),
         decoration: BoxDecoration(
-            color: controller.selectedSubject.value.title == element.title
+            color: selectedSubject.title == element.title
                 ? Theme.of(context).primaryColor
-                : AppColors.transparent,
+                : AppColors.cardColor,
             borderRadius: BorderRadius.circular(setHeightValue(10))),
-        child: AppTextBold(
-          text: element.title,
-          color: controller.selectedSubject.value.title == element.title
-              ? Theme.of(context).scaffoldBackgroundColor
-              : Theme.of(context).primaryColor,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            if (element.image != '')
+              Image.asset(
+                element.image,
+                width: setHeightValue(15),
+                height: setHeightValue(15),
+                // color: controller.selectedSubject.value.title == element.title
+                //     ? Theme.of(context).scaffoldBackgroundColor
+                //     : Theme.of(context).primaryColor,
+              ),
+            setWidth(5),
+            AppTextBold(
+              text: element.title,
+              color: selectedSubject.title == element.title
+                  ? Theme.of(context).scaffoldBackgroundColor
+                  : Theme.of(context).primaryColor,
+            )
+          ],
         ),
       ),
     );
   }
 }
+
+class DaysSelection extends StatelessWidget {
+  DaysSelection(
+      {super.key,
+      required this.daysEnum,
+      required this.onSelected,
+      required this.selectedDaysEnum});
+
+  DaysEnum daysEnum;
+  DaysEnum selectedDaysEnum;
+  Function(DaysEnum) onSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        onSelected(daysEnum);
+      },
+      child: Container(
+        padding: EdgeInsets.symmetric(
+            horizontal: setWidthValue(30), vertical: setHeightValue(7)),
+        decoration: BoxDecoration(
+            color: selectedDaysEnum == daysEnum
+                ? Theme.of(context).primaryColor
+                : AppColors.cardColor,
+            borderRadius: BorderRadius.circular(setHeightValue(5))),
+        child: AppTextBold(
+          text: daysEnum.name,
+          color: selectedDaysEnum == daysEnum
+              ? Theme.of(context).scaffoldBackgroundColor
+              : Theme.of(context).primaryColor,
+          size: 14,
+        ),
+      ),
+    );
+  }
+}
+
+class NoticeBoardCard extends StatelessWidget {
+  NoticeBoardCard({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(
+          horizontal: setWidthValue(30),
+          vertical: setHeightValue(20)
+      ),
+      margin: EdgeInsets.symmetric(
+        horizontal: setWidthValue(30),
+        vertical: setHeightValue(10)
+      ),
+      decoration: BoxDecoration(
+        color: AppColors.cardColor,
+        borderRadius: BorderRadius.circular(setHeightValue(10))
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          AppTextMedium(text: 'Holiday', size: 16,),
+          AppTextRegular(text: 'Due to bad weather', size: 14,),
+          AppTextExtraLight(text: '7 month ago', size: 13,),
+        ],
+      ),
+    );
+  }
+}
+
+
+class ExamFilterSelection extends StatelessWidget {
+  ExamFilterSelection(
+      {super.key,
+        required this.examEnum,
+        required this.onSelected,
+        required this.selectedExamEnum});
+
+  ExamType examEnum;
+  ExamType selectedExamEnum;
+  Function(ExamType) onSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () {
+        onSelected(examEnum);
+      },
+      child: Container(
+        padding: EdgeInsets.symmetric(
+            horizontal: setWidthValue(30), vertical: setHeightValue(7)),
+        decoration: BoxDecoration(
+            color: selectedExamEnum == examEnum
+                ? Theme.of(context).primaryColor
+                : AppColors.cardColor,
+            borderRadius: BorderRadius.circular(setHeightValue(5))),
+        child: AppTextBold(
+          text: examEnum.name,
+          color: selectedExamEnum == examEnum
+              ? Theme.of(context).scaffoldBackgroundColor
+              : Theme.of(context).primaryColor,
+          size: 14,
+        ),
+      ),
+    );
+  }
+}
+
+

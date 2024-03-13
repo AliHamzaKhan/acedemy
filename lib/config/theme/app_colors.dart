@@ -8,7 +8,7 @@ abstract class AppColors {
   static Color text = const Color(0xFF323643);
   static Color danger = const Color(0xFFE8411C);
   static Color borderColor = const Color(0xFFB2AAAA);
-  static Color cardColor = const Color(0xFFF8F5F5);
+  static Color cardColor = const Color(0xFFF1F5F5);
   static Color transparent =  Colors.transparent;
 
 }

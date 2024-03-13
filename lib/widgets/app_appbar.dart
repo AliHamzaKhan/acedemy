@@ -72,7 +72,7 @@ appWithStyle(context, {double? height, String? title,Widget? trailing, Widget? l
                   ),
                 ),
               )),
-          AppTextBold(
+          AppTextRegular(
             text: title ?? '',
             size: 25,
             color: Theme.of(context).scaffoldBackgroundColor,
